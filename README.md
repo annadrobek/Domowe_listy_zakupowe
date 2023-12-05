@@ -1,1 +1,1 @@
-# Domowe_listy_zakupowe
+# Aplikacja zarządzająca domowymi listami zakupów 
