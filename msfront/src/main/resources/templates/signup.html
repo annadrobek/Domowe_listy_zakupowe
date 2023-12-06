@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <title th:text=${appName}></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" th:href="@{/css/style.css}" />
+    </head>
+    <body>
+        <header>
+            <div id="header">
+                <h2>
+                    Witaj w <span th:text=${appName}></span>
+                </h2>
+            </div>
+        </header>    
+        <div id="mainbody">
+            <h3>
+                <center>
+                    Stwórz konto<br>
+                    <form action="#" th:action="@{/stworz_usera}" th:object="${signupform}" method="post">
+                        <table border="0" cellpadding="10">
+                            <tr>
+                                <td>Login:</td>
+                                <td><input type="text" th:field="*{name}" /></td>
+                            </tr>
+                            <tr>
+                                <td>Hasło:</td>
+                                <td><input type="password" th:field="*{pass}" /></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><center><button type="submit">Stwórz konto</button></center></td>
+                            </tr>
+                        </table>
+                    </form>
+                    <h4 id="return">Wróć do <a th:href="@{/}">strony głównej</a></h4>
+                </center>
+            </h3>
+        </div>
+    </header>
+    <footer>
+        <div id="footer">
+            Wykonanie 2023 Anna Drobek & Radosław Biereta
+        </div>
+    </footer>
+</body>
+</html>

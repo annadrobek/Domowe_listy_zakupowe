@@ -1,0 +1,33 @@
+#diagnostyka {
+    vertical-align:top;
+    border:solid 1px #888;
+    padding:10px;
+}
+#tdmarginright {
+    margin-right: 200px;
+}
+#tdmarginleft {
+    margin-left: 200px;
+}
+#header {
+    text-align: center;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    background:#6d31a2;
+}
+#mainbody {
+    text-align: center;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    background:#afbfe0;
+}
+#footer {
+    text-align: center;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    font-size: small;
+    background:#6d31a2;
+}
+#return {
+    text-align: center;
+}

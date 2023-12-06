@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <title th:text=${appName}></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" th:href="@{/css/style.css}" />
+    </head>
+    <body>
+        <header>
+            <div id="header">
+                <h2>
+                    Witaj w <span th:text=${appName}></span>
+                </h2>
+            </div>
+        </header>
+        <div id="mainbody">
+            <h3>
+                Witaj <span style="color:red;" th:text=${user}></span>
+            </h3>
+            <h4 id="return">Wróć do <a th:href="@{/}">strony głównej</a></h4>
+        </div>
+        <footer>
+            <div id="footer">
+                Wykonanie 2023 Anna Drobek & Radosław Biereta
+            </div>
+        </footer>
+    </body>
+</html>
