@@ -1,1 +1,30 @@
-init
+pipeline {
+  agent any
+  tools {
+        maven 'maven-3.9.5'
+    }
+  stages {
+    stage('App build') {
+      steps{
+        sh 'mvn -B -DskipTests clean package' 
+      }
+    }
+    stage('Docker build') {
+      steps {
+      	sh 'docker build -t harbor.drobek.lan/jenkins/eureka:latest -f Dockerfile .'
+      }
+    }
+    stage('Docker push') {
+      environment {
+                 registryURL = 'harbor.drobek.lan'
+                 registryCredential = credentials('2485941f-2356-4588-92a7-a96c9e80962c')
+                 registyNamespace = 'jenkins'
+                 dockerImage='eureka:latest'
+      }
+      steps {
+        sh '''echo $registryCredential_PSW | docker login $registryURL -u 'jenkins' --password-stdin'''
+        sh 'docker push $registryURL/$registyNamespace/$dockerImage'
+      }
+    }
+  }
+}

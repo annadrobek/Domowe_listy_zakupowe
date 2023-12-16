@@ -13,76 +13,73 @@
                 </h2>
             </div>
         </header>
+    <center>
         <div id="mainbody">
-            <table>
-                <tr>
-                    <td>
-                        <table>
-                            <tr>
-                                <td colspan="2">
-                                    <h3>
-                                        Obecnie posiadasz następujące koszyki:
-                                    </h3>   
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">
-                                    <ul>
-                                        <li>
-                                            Koszyk 1
-                                        </li>
-                                        <li>
-                                            ...
-                                        </li>
-                                        <li>
-                                            ...
-                                        </li>
-                                        <li>
-                                            ...
-                                        </li>
-                                        <li>
-                                            ...
-                                        </li>
-                                        <li>
-                                            Koszyk n
-                                        </li>
-                                    </ul>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                    <td>
-                        <table>
-                            <tr>
-                                <td>
-                                    <h3>Stwórz koszyk</h3>
-                                    <form action="#" th:action="@{/stworz_koszyk}" th:object="${addcartform}" method="post">
-                                        <table border="0" cellpadding="10">
-                                            <tr>
-                                                <td>Nazwa koszyka:</td>
-                                                <td><input type="text" th:field="*{name}"/></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Przeznaczenie koszyka:</td>
-                                                <td><input type="text" th:field="*{desc}"/></td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="2"><center><button type="submit">Utwórz koszyk</button></center></td>
-                                            </tr>
-                                        </table>
-                                    </form>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-            </table>
-            <h4 id="return">Wróć do <a th:href="@{/}">strony głównej</a></h4>
+            <center>
+                <h2>Zarządzanie koszykami</h2>
+                <table>
+                    <tr>
+                        <td width="300">
+                            <h3>
+                                Obecnie posiadasz koszyki
+                            </h3>
+                        </td>
+                        <td width="300">
+                            <h3>
+                                Dodaj nowy koszyk
+                            </h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="300">
+                            1<ul>
+                                <li>
+                                    Koszyk 1
+                                </li>
+                                <li>
+                                    ...
+                                </li>
+                                <li>
+                                    ...
+                                </li>
+                                <li>
+                                    ...
+                                </li>
+                                <li>
+                                    ...
+                                </li>
+                                <li>
+                                    Koszyk n
+                                </li>
+                            </ul>
+                        </td>
+                        <td width="300">
+                            <form action="#" th:action="@{/stworz_koszyk}" th:object="${addcartform}" method="post">
+                                <table border="0" cellpadding="10">
+                                    <tr>
+                                        <td>Nazwa koszyka:</td>
+                                        <td><input type="text" th:field="*{name}"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Przeznaczenie koszyka:</td>
+                                        <td><input type="text" th:field="*{desc}"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><center><button type="submit">Utwórz koszyk</button></center></td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+                <h4 id="return">Wróć do <a th:href="@{/}">strony głównej</a></h4>
+            </center>
         </div>
-        <footer>
-            <div id="footer">
-                Wykonanie 2023 Anna Drobek & Radosław Biereta
-            </div>
-        </footer>
-    </body>
+    </center>
+    <footer>
+        <div id="footer">
+            Wykonanie 2023 Anna Drobek & Radosław Biereta
+        </div>
+    </footer>
+</body>
 </html>

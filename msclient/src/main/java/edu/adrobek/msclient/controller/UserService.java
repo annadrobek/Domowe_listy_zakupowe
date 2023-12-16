@@ -30,6 +30,16 @@ public class UserService {
         User newUser = userRepository.save(user);
         return newUser;
     }
+    
+    public User update(User user) {
+        userRepository.delete(user);
+        User newUser = userRepository.save(user);
+        return newUser;
+    }
+    
+    public void delete(User user) {
+        userRepository.delete(user);
+    }
 
     public UserSettings save(UserSettings usersettings) {
         UserSettings newUserSettings = userSettingsRepository.save(usersettings);
@@ -44,11 +54,12 @@ public class UserService {
         User user = userRepository.findByName(name);
         Optional<UserSettings> userSettings = userSettingsRepository.findById(user.getId());
         if (pass.equals(user.getPassword())) {
-            if (userSettings.get().getValue().equals("admin")) {
+            status=1;
+            /*if (userSettings.get().getValue().equals("admin")) {
                 status = 2;
             } else {
                 status = 1;
-            }
+            }*/
         }
         return status;
     }

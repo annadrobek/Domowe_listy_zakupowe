@@ -1,0 +1,59 @@
+<html>
+    <head>
+        <title th:text=${appName}></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" th:href="@{/css/style.css}" />
+    </head>
+    <body>
+        <header>
+            <div id="header">
+                <h2>
+                    Witaj w <span th:text=${appName}></span>
+                </h2>
+            </div>
+        </header>
+    <center>
+        <div id="mainbody">
+            <center>
+                <h2>Modyfikowanie użytkownika</h2>
+                <table>
+                    <tr>
+                        <td width="300">
+                            <form action="#" th:action="@{/edytuj_usera}" th:object="${edituserform}" method="post">
+                                <table border="0" cellpadding="10">
+                                    <tr>
+                                        <td>Twoja stara nazwa:</td>
+                                        <td><input type="text" readonly="readonly" th:field="*{oldName}" th:value="${oldName}"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Twoje stare hasło:</td>
+                                        <td><input type="password" readonly="readonly" th:field="*{oldPass}" th:value="${oldPass}"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Twoja nowa nazwa:</td>
+                                        <td><input type="text" th:field="*{name}"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Twoje nowe hasło:</td>
+                                        <td><input type="password" th:field="*{pass}"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><center><button type="submit">Modyfikuj użytkownika</button></center></td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+                <h4 id="return">Wróć do <a th:href="@{/}">strony głównej</a></h4>
+            </center>
+        </div>
+    </center>
+    <footer>
+        <div id="footer">
+            Wykonanie 2023 Anna Drobek & Radosław Biereta
+        </div>
+    </footer>
+</body>
+</html>

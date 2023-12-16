@@ -42,25 +42,24 @@ public class UserController {
         return "Ok";
     }
 
-    @RequestMapping("/test")
+    @RequestMapping("/addUserWithType")
     public ResponseEntity<User> createUser(@RequestParam("name") String name, @RequestParam("pass") String password, @RequestParam("type") String type) {
         User user = new User(name,password);
         userService.save(user);
-        System.out.println("ID USERA = "+userService.findUserByName(name));
         UserSettings usersettings = new UserSettings(userService.findUserByName(name),"user_role", type, user);
         userService.save(usersettings);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
-
-    /**
-     * @deprecated @param name
-     * @param user
-     */
-    @PostMapping(value = "/addUser/{name}")
-    @Deprecated
-    public void addUser(@PathVariable(name = "name") String name, @ModelAttribute("user") User user) {
+    
+    @RequestMapping("/editUserByName")
+    String EditUser(@ModelAttribute("user") User user, @RequestParam("name") String name, @RequestParam("pass") String password, @RequestParam("oldname") String oldname, @RequestParam("oldpass") String oldpass) {
+        user.setName(oldname);
+        user.setPassword(oldpass);
+        userService.delete(user);
         user.setName(name);
-        userService.save(user);
+        user.setPassword(password);
+        userService.update(user);
+        return "Ok";
     }
 
     /**
