@@ -1,9 +1,5 @@
 package edu.adrobek.mscart.repo;
 
-/**
- *
- * @author pdrobek
- */
 import java.util.List;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;

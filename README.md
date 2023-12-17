@@ -1,1 +1,3 @@
 # Aplikacja zarządzająca domowymi listami zakupów 
+
+Aplikacja wykonana w oparciu o Java Springboot w wersji 3.1.6. Projekt wykorzystuje Eureka Server oraz Eureka Discovery Client. Dodatkowo oparty jest o API gateway. Każdy element aplikacji jest umiejscowiony w swoim mikroserwisie które to komunikują się ze sobą w oparciu o RESTApi. Każdy mikroserwis umiejscowiony jest w swoim folderze w repozytorium. Dodatkowo w każdym folderze umieściliśmy plik yaml stanowiący manifest deploymentu oraz service dla orchestratora Kubernetes. Aplikacja była uruchomiana w domomym środowisku kubernetes jak i lokalnie w oparciu o serwer aplikacyjny Apache Tomcat 10.1

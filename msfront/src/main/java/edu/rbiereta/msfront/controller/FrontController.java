@@ -10,26 +10,29 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import org.apache.logging.log4j.LogManager;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
 
-/**
- *
- * @author pdrobek
- */
 @Controller
 @EnableDiscoveryClient
 @RequestMapping(path = "/")
 public class FrontController {
+
+    private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger(FrontController.class);
 
     @Value("${spring.application.name}")
     String appName;
@@ -103,7 +106,53 @@ public class FrontController {
         CartModel cm = new CartModel();
         model.addAttribute("addcartform", cm);
         model.addAttribute("appName", appName);
+        model.addAttribute("carts", getCarts());
         return "addcart";
+    }
+
+    @RequestMapping("/getcart")
+    public String GetCart(Model model, @RequestParam("name") String name, @RequestParam(name = "desc", required = false) String desc) {
+        CartModel cm = new CartModel();
+        model.addAttribute("addcartform", cm);
+        model.addAttribute("appName", appName);
+        model.addAttribute("carts", getCarts(name));
+        model.addAttribute("name", name);
+        model.addAttribute("user", "user");
+        model.addAttribute("desc", desc);
+        return "getcart";
+    }
+
+    public List getCarts() {
+        RestTemplate restTemplate = new RestTemplate();
+
+        String resourceUrl
+                = "http://localhost:8080/mscart/api/carts";
+        //ResponseEntity<String> response
+        //        = restTemplate.getForEntity(resourceUrl, String.class);
+        ResponseEntity<List> response
+                = restTemplate.getForEntity(resourceUrl, List.class);
+
+        List<?> carts = response.getBody();
+        logger.info(carts);
+        return carts;
+    }
+
+    public List getCarts(String name) {
+        RestTemplate restTemplate = new RestTemplate();
+
+        String resourceUrl
+                = "http://localhost:8080/mscart/api/carts";
+        //ResponseEntity<String> response
+        //        = restTemplate.getForEntity(resourceUrl, String.class);
+        ResponseEntity<List> response
+                = restTemplate.getForEntity(resourceUrl, List.class);
+        for (int i = 0; i < response.getBody().size(); i++) {
+            if (response.getBody().get(i) != name);
+            response.getBody().remove(i);
+        }
+        List<?> carts = response.getBody();
+        logger.info(carts);
+        return carts;
     }
 
     @RequestMapping("/removecart")
@@ -111,7 +160,22 @@ public class FrontController {
         CartModel cm = new CartModel();
         model.addAttribute("removecartform", cm);
         model.addAttribute("appName", appName);
+        model.addAttribute("user", "user");
+        model.addAttribute("carts", getCarts());
         return "removecart";
+    }
+    
+    @RequestMapping("/usun_koszyk")
+    public String EditUser(Model model, @RequestParam("name") String name) {
+        String mscart = "";
+        mscart = MakePOSTRequest("http://localhost:8080/mscart/api/removeCartByName", name);
+        model.addAttribute("appName", appName);
+        if (mscart.equals("Ok")) {
+            model.addAttribute("user", name);
+            return "userpage";
+        } else {
+            return "userpageError";
+        }
     }
 
     @RequestMapping("/edituser")
@@ -139,6 +203,29 @@ public class FrontController {
         }
     }
 
+    String MakePOSTRequest(String destination, String param1) {
+        String finalresponse = "";
+        try {
+            String form = Map.of("name", param1)
+                    .entrySet()
+                    .stream()
+                    .map(entry -> String.join("=",
+                    URLEncoder.encode(entry.getKey().toString(), StandardCharsets.UTF_8),
+                    URLEncoder.encode(entry.getValue().toString(), StandardCharsets.UTF_8)))
+                    .collect(Collectors.joining("&"));
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(destination + "?" + form))
+                    .POST(HttpRequest.BodyPublishers.noBody())
+                    .build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            finalresponse = response.body();
+        } catch (IOException | InterruptedException ex) {
+            Logger.getLogger(FrontController.class.getName()).log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+        }
+        return finalresponse;
+    }
+    
     String MakePOSTRequest(String destination, String param1, String param2) {
         String finalresponse = "";
         try {
@@ -161,7 +248,7 @@ public class FrontController {
         }
         return finalresponse;
     }
-    
+
     String MakePOSTRequest(String destination, String param1, String param2, String param3, String param4) {
         String finalresponse = "";
         try {

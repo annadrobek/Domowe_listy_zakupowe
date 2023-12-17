@@ -9,10 +9,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Service
 public class UserService {
 
+    private static final Logger logger = LogManager.getLogger(UserController.class);
+    
     @Autowired
     private UserRepo userRepository;
     @Autowired
@@ -39,6 +43,12 @@ public class UserService {
     
     public void delete(User user) {
         userRepository.delete(user);
+        logger.info("User "+ user.toString() +" deleted");
+    }
+    
+    public void deleteById(int id) {
+        userRepository.deleteById(id);
+        logger.info("User "+ id + "["+userRepository.findById(id)+"] deleted");
     }
 
     public UserSettings save(UserSettings usersettings) {

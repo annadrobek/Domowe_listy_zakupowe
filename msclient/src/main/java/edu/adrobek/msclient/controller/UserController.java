@@ -55,10 +55,12 @@ public class UserController {
     String EditUser(@ModelAttribute("user") User user, @RequestParam("name") String name, @RequestParam("pass") String password, @RequestParam("oldname") String oldname, @RequestParam("oldpass") String oldpass) {
         user.setName(oldname);
         user.setPassword(oldpass);
-        userService.delete(user);
+        userService.findUserByName(oldname);
+        userService.deleteById(userService.findUserByName(oldname));
+        logger.info("User modified!");
         user.setName(name);
         user.setPassword(password);
-        userService.update(user);
+        userService.save(user);
         return "Ok";
     }
 

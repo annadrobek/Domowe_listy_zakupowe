@@ -52,13 +52,37 @@ public class CartController {
         }
     }
 
+    @GetMapping("/carts/{name}")
+    public ResponseEntity<Cart> getCartByName(@PathVariable("name") String name) {
+        Cart cartData = cartRepository.findByName(name);
+        if (cartData.getId() >= 1) {
+            logger.info("Cart = "+cartData.toString());
+            return new ResponseEntity<>(cartData, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    
+    @PostMapping("/carts")
+    public ResponseEntity<Cart> getCartByNamePost(@RequestParam("name") String name) {
+        Cart cartData = cartRepository.findByName(name);
+        if (cartData.getId() >= 1) {
+            logger.info("Cart = "+cartData.toString());
+            return new ResponseEntity<>(cartData, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PostMapping("/addCart")
     public ResponseEntity<Cart> createCart(@RequestBody Cart cart) {
         try {
             Cart _cart = cartRepository
                     .save(new Cart(cart.getName(), cart.getDescription()));
+            logger.info("Crearted " + _cart.toString());
             return new ResponseEntity<>(_cart, HttpStatus.CREATED);
         } catch (Exception e) {
+            logger.info("Something went wrong!");
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -67,33 +91,21 @@ public class CartController {
     public String createCartByParams(@RequestParam(required = true) String name, @RequestParam(required = false) String desc) {
         try {
             Cart _cart = cartRepository.save(new Cart(name, desc));
+            logger.info("Crearted " + _cart.toString());
             return "Ok";
         } catch (Exception e) {
+            logger.info("Something went wrong!");
             return "Exception";
         }
     }
 
-    @PutMapping("/carts/{id}")
-    public ResponseEntity<Cart> updateCart(@PathVariable("id") int id, @RequestBody Cart cart) {
-        Optional<Cart> cartData = cartRepository.findById(id);
-
-        if (cartData.isPresent()) {
-            Cart _cart = cartData.get();
-            _cart.setName(cart.getName());
-            _cart.setDescription(cart.getDescription());
-            return new ResponseEntity<>(cartRepository.save(cart), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @DeleteMapping("/carts/{id}")
-    public ResponseEntity<HttpStatus> deleteCart(@PathVariable("id") int id) {
+    @PostMapping("/removeCartByName")
+    public String deleteCart(@RequestParam("name") String name) {
         try {
-            cartRepository.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            cartRepository.deleteById(cartRepository.findByName(name).getId());
+            return "Ok";
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return "execption";
         }
     }
 

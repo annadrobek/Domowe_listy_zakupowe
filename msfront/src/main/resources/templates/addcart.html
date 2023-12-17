@@ -32,24 +32,9 @@
                     </tr>
                     <tr>
                         <td width="300">
-                            1<ul>
-                                <li>
-                                    Koszyk 1
-                                </li>
-                                <li>
-                                    ...
-                                </li>
-                                <li>
-                                    ...
-                                </li>
-                                <li>
-                                    ...
-                                </li>
-                                <li>
-                                    ...
-                                </li>
-                                <li>
-                                    Koszyk n
+                            <ul>
+                                <li th:each="cart : ${carts}">
+                                    <a th:href="@{/getcart?name=} + ${cart.name}" th:text="${cart.name}"></a>
                                 </li>
                             </ul>
                         </td>

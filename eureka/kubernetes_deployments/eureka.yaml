@@ -1,0 +1,116 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+    io.portainer.kubernetes.application.note: ""
+  creationTimestamp: "2023-12-14T15:27:15Z"
+  generation: 1
+  labels:
+    io.portainer.kubernetes.application.name: eureka
+    io.portainer.kubernetes.application.owner: admin
+    io.portainer.kubernetes.application.stack: eureka
+    manager: Mozilla
+    operation: Update
+    time: "2023-12-14T15:27:15Z"
+  - apiVersion: apps/v1
+    manager: kube-controller-manager
+    operation: Update
+    subresource: status
+    time: "2023-12-16T00:22:34Z"
+  name: eureka
+  namespace: jenkins-ns
+  resourceVersion: "41884354"
+  uid: 6bb89cb4-7d36-4969-a58d-c450c05ac345
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: eureka
+  strategy:
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 100%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: eureka
+        io.portainer.kubernetes.application.name: eureka
+    spec:
+      containers:
+      - image: harbor.drobek.lan/jenkins/eureka:latest
+        imagePullPolicy: Always
+        name: eureka
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512M
+          requests:
+            cpu: 500m
+            memory: 512M
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+      - name: registry-1
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: "2023-12-14T15:27:16Z"
+    lastUpdateTime: "2023-12-14T15:27:16Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  - lastTransitionTime: "2023-12-14T15:27:15Z"
+    lastUpdateTime: "2023-12-14T15:27:34Z"
+    message: ReplicaSet "eureka-89766c69d" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  observedGeneration: 1
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: "2023-12-14T15:27:15Z"
+  labels:
+    io.portainer.kubernetes.application.name: eureka
+    io.portainer.kubernetes.application.owner: admin
+    io.portainer.kubernetes.application.stack: eureka
+  name: eureka
+  namespace: jenkins-ns
+  resourceVersion: "41678472"
+  uid: 60de6411-ef32-4335-a1e3-8327e174e32b
+spec:
+  clusterIP: 10.111.82.106
+  clusterIPs:
+  - 10.111.82.106
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: port-0
+    nodePort: 30110
+    port: 8761
+    protocol: TCP
+    targetPort: 8761
+  selector:
+    app: eureka
+  sessionAffinity: None
+  type: NodePort
+status:
+  loadBalancer: {}

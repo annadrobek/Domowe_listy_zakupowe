@@ -1,0 +1,129 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+    io.portainer.kubernetes.application.note: ""
+  creationTimestamp: "2023-10-22T10:18:52Z"
+  generation: 1
+  labels:
+    io.portainer.kubernetes.application.name: msclient
+    io.portainer.kubernetes.application.owner: admin
+    io.portainer.kubernetes.application.stack: msclient
+    manager: Mozilla
+    operation: Update
+    time: "2023-10-22T10:18:52Z"
+  - apiVersion: apps/v1
+    manager: kube-controller-manager
+    operation: Update
+    subresource: status
+    time: "2023-12-16T00:15:20Z"
+  name: msclient
+  namespace: jenkins-ns
+  resourceVersion: "41883496"
+  uid: 1eb76623-f957-40f8-9666-4a6d13a02f09
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: msclient
+  strategy:
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 100%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: msclient
+        io.portainer.kubernetes.application.name: msclient
+    spec:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - preference:
+              matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                - worker1
+            weight: 1
+      containers:
+      - image: harbor.drobek.lan/jenkins/msclient:latest
+        imagePullPolicy: Always
+        name: msclient
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512M
+          requests:
+            cpu: 500m
+            memory: 512M
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+      - name: registry-1
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: "2023-10-22T10:18:52Z"
+    lastUpdateTime: "2023-10-22T10:18:52Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  - lastTransitionTime: "2023-10-22T10:18:52Z"
+    lastUpdateTime: "2023-10-22T10:18:56Z"
+    message: ReplicaSet "msclient-8dcc58d95" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  observedGeneration: 1
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: "2023-10-22T10:18:52Z"
+  labels:
+    io.portainer.kubernetes.application.name: msclient
+    io.portainer.kubernetes.application.owner: admin
+    io.portainer.kubernetes.application.stack: msclient
+    manager: Mozilla
+    operation: Update
+    time: "2023-10-22T10:18:52Z"
+  name: msclient
+  namespace: jenkins-ns
+  resourceVersion: "33712762"
+  uid: 923d6134-89bb-4437-a32f-faf6b9b5a687
+spec:
+  clusterIP: 10.100.175.125
+  clusterIPs:
+  - 10.100.175.125
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: port-0
+    nodePort: 30080
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: msclient
+  sessionAffinity: None
+  type: NodePort
+status:
+  loadBalancer: {}

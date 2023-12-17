@@ -14,15 +14,26 @@
             </div>
         </header>
         <div id="mainbody">
-            <h4>Kliknij w link aby usunąć koszyk</h4>
             <center>
                 <table>
-                    <tr th:each="cart : ${carts}">
-                        <td><a th:href="@{/usun_koszyk?name=} + ${cart.name}" th:text="${cart.name}"></a></td>
-                    </tr>
+                    <tr>
+                        <td width="300">
+                    <center>
+                        <h4>
+                            Edytujesz koszyk <span th:text="${name}"></span>
+                        </h4>
+                        <h5>
+                            Przeznaczeniem koszyka jest
+                            <br>
+                            <span th:text="${desc}"></span>
+                        </h5>
+                    </center>
+                    </td>
+                </tr>
                 </table>
             </center>
             <h4 id="return">Wróć do <a th:href="@{/}">strony głównej</a></h4>
+            <br><br>
         </div>
         <footer>
             <div id="footer">
